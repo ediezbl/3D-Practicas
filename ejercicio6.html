@@ -40,10 +40,11 @@
         var count = 0.0;
         var rotation_x = 0.0;
         var rotation_y = 0.0;
-
+        var up = 0;
+        var canvas;
         function init() {
             // Get canvas object from the DOM
-            var canvas = document.getElementById("myCanvas");
+            canvas = document.getElementById("myCanvas");
 
             // Init WebGL context
             gl = canvas.getContext("webgl");
@@ -74,32 +75,24 @@
               var step = new Number(document.getElementById('step').value);
               console.log(ev.keyCode);
               switch(ev.keyCode){
-                case 37: //Izquierda
-                rotation_x  = rotation_x - step;
+                case 37: // rotacion a la izquierda
+                rotation_y  = rotation_y - step;
                 break;
-                case 39: // Derecha
-                rotation_x = rotation_x + step;
-                break;
-                case 38: // Arriba
+                case 39: // rotacion a la derecha
                 rotation_y = rotation_y + step;
                 break;
-                case 40: // Abajo
-                rotation_y = rotation_y - step;
+                case 38: // rotacion hacia la derecha
+                rotation_x = rotation_x + step;
                 break;
-                /*
-                case 33: // rePag Aumento de escala
-                scale = scale + step;
+                case 40: // rotacion hacia la izquierda
+                rotation_x = rotation_x - step;
                 break;
-                case 34: // avpag Disminucion de escala
-                scale = scale - step;
+                case 33: // rePag eleva la camara
+                up = up + step;
                 break;
-                case 36: // inicio Giro negativo según el eje z
-                rotate = rotate - step;
+                case 34: // avpag baja la camara
+                up = up - step;
                 break;
-                case 35: //fin Giro positivo en el eje z
-                rotate = rotate + step;
-                break;
-                */
               }
             };
             // Init textures
@@ -187,7 +180,7 @@
 
             // Write u_vMatrix
             var vMatrixUniform = gl.getUniformLocation(gl.program, "u_vMatrix");
-            var vMatrix = mat4.lookAt(mat4.create(), [0, 0, -3], [0, 0, 0], [0, 1, 0]);
+            var vMatrix = mat4.lookAt(mat4.create(), [0, up, -3], [0, 0, 0], [0, 1, 0]);
             gl.uniformMatrix4fv(vMatrixUniform, false, vMatrix);
         }
 
@@ -223,14 +216,14 @@
         function drawScene() {
             // Clear
             gl.clear(gl.COLOR_BUFFER_BIT);
-
-            // Rotate
+            initProjection(gl, canvas);
             // voy a intentar hacer otra cosa a ver si funciona
             var rotated_x = mat4.fromXRotation(mat4.create(), rotation_x);
             var rotated_y = mat4.fromYRotation(mat4.create(), rotation_y);
             var mvMatrix = mat4.multiply(mat4.create(), rotated_x, rotated_y);
             var uMvMatrix = gl.getUniformLocation(gl.program, "u_mvMatrix");
             gl.uniformMatrix4fv(uMvMatrix, false, mvMatrix);
+
             /*
             var mvMatrix = mat4.fromRotation(mat4.create(), count, [0.5, 0.5, 0.5]);
             var uMvMatrix = gl.getUniformLocation(gl.program, "u_mvMatrix");
