@@ -224,12 +224,6 @@
             var uMvMatrix = gl.getUniformLocation(gl.program, "u_mvMatrix");
             gl.uniformMatrix4fv(uMvMatrix, false, mvMatrix);
 
-            /*
-            var mvMatrix = mat4.fromRotation(mat4.create(), count, [0.5, 0.5, 0.5]);
-            var uMvMatrix = gl.getUniformLocation(gl.program, "u_mvMatrix");
-            gl.uniformMatrix4fv(uMvMatrix, false, mvMatrix);
-            */
-
             // Draw
             gl.drawElements(gl.TRIANGLES, 6 * 2 * 3, gl.UNSIGNED_SHORT, 0);
 
