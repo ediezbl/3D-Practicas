@@ -38,6 +38,8 @@
     <script>
         var gl;
         var count = 0.0;
+        var rotation_x = 0.0;
+        var rotation_y = 0.0;
 
         function init() {
             // Get canvas object from the DOM
@@ -67,6 +69,39 @@
             // Hidden surface removal
             gl.enable(gl.DEPTH_TEST);
 
+            // Evento que reconocera las teclas
+            document.onkeydown = function(ev){
+              var step = new Number(document.getElementById('step').value);
+              console.log(ev.keyCode);
+              switch(ev.keyCode){
+                case 37: //Izquierda
+                rotation_x  = rotation_x - step;
+                break;
+                case 39: // Derecha
+                rotation_x = rotation_x + step;
+                break;
+                case 38: // Arriba
+                rotation_y = rotation_y + step;
+                break;
+                case 40: // Abajo
+                rotation_y = rotation_y - step;
+                break;
+                /*
+                case 33: // rePag Aumento de escala
+                scale = scale + step;
+                break;
+                case 34: // avpag Disminucion de escala
+                scale = scale - step;
+                break;
+                case 36: // inicio Giro negativo según el eje z
+                rotate = rotate - step;
+                break;
+                case 35: //fin Giro positivo en el eje z
+                rotate = rotate + step;
+                break;
+                */
+              }
+            };
             // Init textures
             initTexturesAndDraw(gl);
         }
@@ -190,9 +225,17 @@
             gl.clear(gl.COLOR_BUFFER_BIT);
 
             // Rotate
+            // voy a intentar hacer otra cosa a ver si funciona
+            var rotated_x = mat4.fromXRotation(mat4.create(), rotation_x);
+            var rotated_y = mat4.fromYRotation(mat4.create(), rotation_y);
+            var mvMatrix = mat4.multiply(mat4.create(), rotated_x, rotated_y);
+            var uMvMatrix = gl.getUniformLocation(gl.program, "u_mvMatrix");
+            gl.uniformMatrix4fv(uMvMatrix, false, mvMatrix);
+            /*
             var mvMatrix = mat4.fromRotation(mat4.create(), count, [0.5, 0.5, 0.5]);
             var uMvMatrix = gl.getUniformLocation(gl.program, "u_mvMatrix");
             gl.uniformMatrix4fv(uMvMatrix, false, mvMatrix);
+            */
 
             // Draw
             gl.drawElements(gl.TRIANGLES, 6 * 2 * 3, gl.UNSIGNED_SHORT, 0);
@@ -236,6 +279,8 @@
 
 <body onload="init()">
     <canvas id="myCanvas" width="640" height="480"></canvas>
+    <br>
+    Step: <input type = "text" value = '0.01' id = "step">
 </body>
 
 </html>
