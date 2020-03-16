@@ -8,9 +8,8 @@
 
     <script id="shaderVs" type="x-shader/x-vertex">
         attribute vec4 a_Position;
-	    attribute vec2 a_TexCoord;
+	      attribute vec2 a_TexCoord;
         varying vec2 v_TexCoord;
-
         uniform mat4 u_pMatrix;
         uniform mat4 u_vMatrix;
         uniform mat4 u_mvMatrix;
@@ -24,11 +23,15 @@
     <script id="shaderFs" type="x-shader/x-fragment">
         precision highp float;
         precision mediump float;
-        uniform sampler2D u_Sampler;
+        uniform sampler2D u_Sampler0;
+        uniform sampler2D u_Sampler1;
         varying vec2 v_TexCoord;
 
         void main(void) {
-            gl_FragColor = texture2D(u_Sampler, v_TexCoord);
+          vec4 color0 = texture2D(u_Sampler0, v_TexCoord);
+          vec4 color1 = texture2D(u_Sampler1, v_TexCoord);
+          gl_FragColor = color0 * color1;
+
         }
     </script>
 
@@ -156,9 +159,14 @@
         function initTexturesAndDraw(gl) {
             var image = new Image();
             image.src = 'arrow.jpg';
+            var image2 = new Image();
+            image2.src = 'circle.gif';
             image.onload = function () {
-                loadTexture(gl, "u_Sampler", image, 0, true);
+                loadTexture(gl, "u_Sampler0", image, 0, true);
+                image2.onload = function () {
+                loadTexture(gl, "u_Sampler1", image2, 1, true);
                 drawScene();
+              };
             };
         }
 
