@@ -41,6 +41,7 @@
         var rotation_x = 0.0;
         var rotation_y = 0.0;
         var up = 0;
+        var z = -3;
         var arrow_left = [1.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0];
         var arrow_down = [0.0, 0.0, 1.0, 0.0, 1.0, 1.0, 0.0, 1.0];
         var arrow_right = [0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0, 0.0];
@@ -103,7 +104,10 @@
                 break;
               }
             };
-
+            // Evento que escucha la rueda del raton
+            document.addEventListener('wheel', function (event) {
+                  z = event.wheelDelta > 0 ? z + 1 : z - 1;
+            });
 
             // Init textures
             initTexturesAndDraw(gl);
@@ -131,10 +135,10 @@
                 0.5, 0.5, 0.5,  vector_final[4], vector_final[5],
                 0.5, -0.5, 0.5, vector_final[2], vector_final[3],
 
-                -0.5, -0.5, -0.5, vector_final[6], vector_final[7],
-                -0.5, -0.5, 0.5, vector_final[0], vector_final[1],
-                0.5, -0.5, 0.5, vector_final[2], vector_final[3],
-                0.5, -0.5, -0.5, vector_final[4], vector_final[5],
+                -0.5, -0.5, -0.5, vector_final[0], vector_final[1],
+                -0.5, -0.5, 0.5, vector_final[6], vector_final[7],
+                0.5, -0.5, 0.5, vector_final[4], vector_final[5],
+                0.5, -0.5, -0.5, vector_final[2], vector_final[3],
 
                 -0.5, 0.5, -0.5, vector_final[0], vector_final[1],
                 -0.5, 0.5, 0.5, vector_final[6], vector_final[7],
@@ -189,7 +193,7 @@
 
             // Write u_vMatrix
             var vMatrixUniform = gl.getUniformLocation(gl.program, "u_vMatrix");
-            var vMatrix = mat4.lookAt(mat4.create(), [0, up, -3], [0, 0, 0], [0, 1, 0]);
+            var vMatrix = mat4.lookAt(mat4.create(), [0, up, z], [0, 0, 0], [0, 1, 0]);
             gl.uniformMatrix4fv(vMatrixUniform, false, vMatrix);
         }
 

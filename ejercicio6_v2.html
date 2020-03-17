@@ -41,6 +41,7 @@
         var rotation_x = 0.0;
         var rotation_y = 0.0;
         var up = 0;
+        var z = -3;
         var arrow_left = []
         var canvas;
         function init() {
@@ -96,6 +97,11 @@
                 break;
               }
             };
+            // Evento que escucha la rueda del raton
+            document.addEventListener('wheel', function (event) {
+                  z = event.wheelDelta > 0 ? z + 1 : z - 1;
+            });
+        }
             // Init textures
             initTexturesAndDraw(gl);
         }
