@@ -41,11 +41,7 @@
         var rotation_x = 0.0;
         var rotation_y = 0.0;
         var up = 0;
-        var arrow_left = [1.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0];
-        var arrow_down = [0.0, 0.0, 1.0, 0.0, 1.0, 1.0, 0.0, 1.0];
-        var arrow_right = [0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0, 0.0];
-        var arrow_up = [1.0, 1.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0];
-        var vector_final = arrow_left;
+        var arrow_left = []
         var canvas;
         function init() {
             // Get canvas object from the DOM
@@ -65,6 +61,7 @@
 
             // Init vertex shader
             initVertexShader(gl);
+
             // Init projection matrix
             initProjection(gl, canvas);
 
@@ -81,19 +78,15 @@
               switch(ev.keyCode){
                 case 37: // rotacion a la izquierda
                 rotation_y  = rotation_y - step;
-                vector_final = arrow_left;
                 break;
                 case 39: // rotacion a la derecha
                 rotation_y = rotation_y + step;
-                vector_final = arrow_right;
                 break;
-                case 38: // Arriba rotacion hacia la derecha
+                case 38: // rotacion hacia la derecha
                 rotation_x = rotation_x + step;
-                vector_final = arrow_up;
                 break;
-                case 40: // Abajo rotacion hacia la izquierda
+                case 40: // rotacion hacia la izquierda
                 rotation_x = rotation_x - step;
-                vector_final = arrow_down;
                 break;
                 case 33: // rePag eleva la camara
                 up = up - step;
@@ -103,43 +96,42 @@
                 break;
               }
             };
-
-
             // Init textures
             initTexturesAndDraw(gl);
         }
 
         function initVertexShader(gl) {
+            // Vertexes and texture coordinates
             var vertexesAndTextures = [
-                -0.5, -0.5, -0.5, vector_final[0], vector_final[1],
-                0.5, -0.5, -0.5, vector_final[2], vector_final[3],
-                0.5, 0.5, -0.5, vector_final[4], vector_final[5],
-                -0.5, 0.5, -0.5, vector_final[6], vector_final[7],
+                -0.5, -0.5, -0.5, 1.0, 1.0,
+                0.5, -0.5, -0.5, 1.0, 0.0,
+                0.5, 0.5, -0.5, 0.0, 0.0,
+                -0.5, 0.5, -0.5, 0.0, 1.0,
 
-                -0.5, -0.5, 0.5, vector_final[2], vector_final[3],
-                0.5, -0.5, 0.5, vector_final[0], vector_final[1],
-                0.5, 0.5, 0.5, vector_final[6], vector_final[7],
-                -0.5, 0.5, 0.5, vector_final[4], vector_final[5],
+                -0.5, -0.5, 0.5, 0.0, 0.0,
+                0.5, -0.5, 0.5, 0.0, 1.0,
+                0.5, 0.5, 0.5, 1.0, 1.0,
+                -0.5, 0.5, 0.5, 1.0, 0.0,
 
-                -0.5, -0.5, -0.5, vector_final[2], vector_final[3],
-                -0.5, 0.5, -0.5, vector_final[4], vector_final[5],
-                -0.5, 0.5, 0.5, vector_final[6], vector_final[7],
-                -0.5, -0.5, 0.5, vector_final[0], vector_final[1],
+                -0.5, -0.5, -0.5, 1.0, 0.0,
+                -0.5, 0.5, -0.5, 0.0, 0.0,
+                -0.5, 0.5, 0.5, 0.0, 1.0,
+                -0.5, -0.5, 0.5, 1.0, 1.0,
 
-                0.5, -0.5, -0.5, vector_final[0], vector_final[1],
-                0.5, 0.5, -0.5, vector_final[6], vector_final[7],
-                0.5, 0.5, 0.5,  vector_final[4], vector_final[5],
-                0.5, -0.5, 0.5, vector_final[2], vector_final[3],
+                0.5, -0.5, -0.5, 0.0, 1.0,
+                0.5, 0.5, -0.5, 1.0, 1.0,
+                0.5, 0.5, 0.5,  1.0, 0.0,
+                0.5, -0.5, 0.5, 0.0, 0.0,
 
-                -0.5, -0.5, -0.5, vector_final[6], vector_final[7],
-                -0.5, -0.5, 0.5, vector_final[0], vector_final[1],
-                0.5, -0.5, 0.5, vector_final[2], vector_final[3],
-                0.5, -0.5, -0.5, vector_final[4], vector_final[5],
+                -0.5, -0.5, -0.5, 1.0, 1.0,
+                -0.5, -0.5, 0.5, 0.0, 1.0,
+                0.5, -0.5, 0.5, 0.0, 0.0,
+                0.5, -0.5, -0.5, 1.0, 0.0,
 
-                -0.5, 0.5, -0.5, vector_final[0], vector_final[1],
-                -0.5, 0.5, 0.5, vector_final[6], vector_final[7],
-                0.5, 0.5, 0.5, vector_final[4], vector_final[5],
-                0.5, 0.5, -0.5, vector_final[2], vector_final[3],
+                -0.5, 0.5, -0.5, 1.0, 1.0,
+                -0.5, 0.5, 0.5, 0.0, 1.0,
+                0.5, 0.5, 0.5, 0.0, 0.0,
+                0.5, 0.5, -0.5, 1.0, 0.0,
             ];
 
             // Indexes
@@ -166,7 +158,7 @@
             // Write a_Position and a_TexCoord using gl.ARRAY_BUFFER
             gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
             gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertexesAndTextures), gl.STATIC_DRAW);
-            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertexesAndTextures), gl.STATIC_DRAW);
+
             var vertexPositionAttribute = gl.getAttribLocation(gl.program, "a_Position");
             gl.enableVertexAttribArray(vertexPositionAttribute);
             gl.vertexAttribPointer(vertexPositionAttribute, 3, gl.FLOAT, false, 4 * (3 + 2), 0);
@@ -225,7 +217,6 @@
         function drawScene() {
             // Clear
             gl.clear(gl.COLOR_BUFFER_BIT);
-            initVertexShader(gl);
             initProjection(gl, canvas);
             // voy a intentar hacer otra cosa a ver si funciona
             var rotated_x = mat4.fromXRotation(mat4.create(), rotation_x);
@@ -277,7 +268,7 @@
 <body onload="init()">
     <canvas id="myCanvas" width="640" height="480"></canvas>
     <br>
-    Step: <input type = "text" value = '0.1' id = "step">
+    Step: <input type = "text" value = '0.01' id = "step">
 </body>
 
 </html>
