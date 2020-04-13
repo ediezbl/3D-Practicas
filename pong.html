@@ -12,6 +12,7 @@
    var pala_Jugador = 4;
    var pala_CPU = 4;
    var borders = [];
+   var inicio = false;
    function init() {
       var scene = new THREE.Scene();
       var sceneWidth = window.innerWidth - 20;
@@ -48,6 +49,13 @@
 
       animate(sphere, borders, renderer, scene, camera);
    }
+   function comprobarRaqueta(raqueta){
+     if (raqueta.position.x <= -2.25){
+       raqueta.position.x = -2.25;
+     } else if (raqueta.position.x >= 2.25) {
+       raqueta.position.x = 2.25;
+     }
+   }
    function Mover_Pala(raqueta){
      document.onkeydown = function(ev){
        console.log(ev.keyCode);
@@ -58,24 +66,34 @@
          case 39:
          raqueta.position.x += 0.25;
          break;
+         case 32:
+         inicio = true;
+         break;
      };
    }
    comprobarRaqueta(raqueta);
  }
-function comprobarRaqueta(raqueta){
-  console.log(raqueta.position.x);
-  if (raqueta.position.x <= -2.25){
-    raqueta.position.x = -2.25;
-  } else if (raqueta.position.x >= 2.25) {
-    raqueta.position.x = 2.25;
-  }
+ function mover_CPU(raqueta,sphere){
+   raqueta.position.x = sphere.position.x;
+   if (raqueta.position.x <= -2.25){
+     raqueta.position.x = -2.25;
+   } else if (raqueta.position.x >= 2.25) {
+     raqueta.position.x = 2.25;
+   }
+ }
+function mover_Bola(sphere,inicio){
+   if(inicio){
+     sphere.position.x += stepX;
+     sphere.position.y += stepY;
+   }
 }
    function animate(sphere, borders, renderer, scene, camera) {
       checkCollision(sphere, borders);
-      sphere.position.x += stepX;
-      sphere.position.y += stepY;
-      raqueta = borders[3];
-      Mover_Pala(raqueta);
+      raqueta_J1 = borders[3];
+      raqueta_CPU = borders[2];
+      Mover_Pala(raqueta_J1);
+      mover_CPU(raqueta_CPU,sphere);
+      mover_Bola(sphere,inicio);
       renderer.render(scene, camera);
       requestAnimationFrame(function() {
          animate(sphere, borders, renderer, scene, camera);
@@ -164,5 +182,5 @@ function comprobarRaqueta(raqueta){
 
 <body onload="init()">
 </body>
-
+<h1></h1>
 </html>
