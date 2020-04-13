@@ -60,11 +60,14 @@
          break;
      };
    }
+   comprobarRaqueta(raqueta);
  }
-function comprobarRaqueta(downBorder, leftBorder){
-  if (downBorder.position.x == leftBorder.position.y){
-    console.log("dentro");
-    downBorder.position.x = leftBorder.position.y;
+function comprobarRaqueta(raqueta){
+  console.log(raqueta.position.x);
+  if (raqueta.position.x <= -2.25){
+    raqueta.position.x = -2.25;
+  } else if (raqueta.position.x >= 2.25) {
+    raqueta.position.x = 2.25;
   }
 }
    function animate(sphere, borders, renderer, scene, camera) {
