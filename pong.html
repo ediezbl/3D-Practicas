@@ -9,10 +9,33 @@
 <script>
    var stepX = 0.15;
    var stepY = 0.25;
-   var pala_Jugador = 4;
-   var pala_CPU = 4;
+   var pala_Jugador = 2;
+   var pala_CPU = 2;
+   var puntos_CPU = 0;
+   var puntos_J1 = 0;
    var borders = [];
    var inicio = false;
+   var textMesh;
+   function texto(scene){
+     var loader = new THREE.FontLoader();
+     loader.load('fonts/helvetiker_regular.typeface.json', function ( font ) {
+        var geometry = new THREE.TextGeometry( '0-2', {
+          font: font,
+          size: 5,
+          height: 5,
+          bevelEnabled: false,
+          bevelThickness: 0.1,
+          bevelSize: 0.1,
+          bevelOffset: 0.1,
+          bevelSegments: 0.1
+        });
+        var textMaterial = new THREE.MeshNormalMaterial();
+         textMesh = new THREE.Mesh(geometry, textMaterial);
+         textMesh.position.set(-5,30,0);
+         textMesh.rotation.x = -5;
+         scene.add(textMesh);
+     });
+   }
    function init() {
       var scene = new THREE.Scene();
       var sceneWidth = window.innerWidth - 20;
@@ -36,7 +59,6 @@
       var downBorder = getBorder("down", pala_Jugador, 1, 2, 0, -9.5, 0);
       var sphere = getSphere();
       var floor = getFloor();
-
       scene.add(light);
       scene.add(leftBorder);
       scene.add(rightBorder);
@@ -44,7 +66,7 @@
       scene.add(downBorder);
       scene.add(sphere);
       scene.add(floor);
-
+      texto(scene);
       borders = [ leftBorder, rightBorder, topBorder, downBorder ];
 
       animate(sphere, borders, renderer, scene, camera);
