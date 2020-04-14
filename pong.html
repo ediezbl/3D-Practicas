@@ -56,6 +56,15 @@
        raqueta.position.x = 2.25;
      }
    }
+   function comprobarBola(sphere){
+     if (sphere.position.y >= 10){
+       sphere.position.x = 0;
+       sphere.position.y = 0;
+     } else if (sphere.position.y <= -9){
+      sphere.position.x = 0;
+      sphere.position.y = 0;
+     }
+   }
    function Mover_Pala(raqueta){
      document.onkeydown = function(ev){
        console.log(ev.keyCode);
@@ -86,6 +95,7 @@ function mover_Bola(sphere,inicio){
      sphere.position.x += stepX;
      sphere.position.y += stepY;
    }
+   comprobarBola(sphere);
 }
    function animate(sphere, borders, renderer, scene, camera) {
       checkCollision(sphere, borders);
@@ -182,5 +192,4 @@ function mover_Bola(sphere,inicio){
 
 <body onload="init()">
 </body>
-<h1></h1>
 </html>
