@@ -1,3 +1,4 @@
+
 var stepX = 0.15;
 var stepY = 0.25;
 var pala_Jugador = 2;
@@ -7,7 +8,7 @@ var puntos_J1 = 0;
 var borders = [];
 var inicio = false;
 var textMesh;
-
+var file;
 function marcador(scene, number1, number2){
   var loader = new THREE.FontLoader();
   loader.load('fonts/helvetiker_regular.typeface.json', function ( font ) {
@@ -167,8 +168,8 @@ function getLight() {
 
 function getSphere() {
    var geometry = new THREE.SphereGeometry(1, 20, 20);
-   var material = new THREE.MeshNormalMaterial();
-   var mesh = new THREE.Mesh(geometry, material);
+   file = 'bola.png'
+   var mesh = new THREE.Mesh(geometry, getTexture(file));
    mesh.position.z = 1;
    mesh.castShadow = true;
    mesh.name = "sphere";
@@ -178,7 +179,8 @@ function getSphere() {
 
 function getFloor() {
    var geometry = new THREE.PlaneGeometry(10, 20);
-   var mesh = new THREE.Mesh(geometry, getWoodMaterial());
+   file = 'grass.jpg';
+   var mesh = new THREE.Mesh(geometry, getTexture(file));
    mesh.receiveShadow = true;
 
    return mesh;
@@ -186,7 +188,8 @@ function getFloor() {
 
 function getBorder(name, x, y, z, posX, posY, posZ) {
    var geometry = new THREE.BoxGeometry(x, y, z);
-   var mesh = new THREE.Mesh(geometry, getWoodMaterial());
+   file = 'wood.png'
+   var mesh = new THREE.Mesh(geometry, getTexture(file));
    mesh.receiveShadow = true;
    mesh.position.set(posX, posY, posZ);
    mesh.name = name;
@@ -194,8 +197,8 @@ function getBorder(name, x, y, z, posX, posY, posZ) {
    return mesh;
 }
 
-function getWoodMaterial() {
-   var texture = new THREE.TextureLoader().load("wood.png");
+function getTexture(file) {
+   var texture = new THREE.TextureLoader().load(file);
    var material = new THREE.MeshPhysicalMaterial({
       map : texture
    });
