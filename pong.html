@@ -16,10 +16,10 @@
    var borders = [];
    var inicio = false;
    var textMesh;
-   function texto(scene){
+   function marcador(scene, number1, number2){
      var loader = new THREE.FontLoader();
      loader.load('fonts/helvetiker_regular.typeface.json', function ( font ) {
-        var geometry = new THREE.TextGeometry( '0-2', {
+        var geometry = new THREE.TextGeometry( number1 + "-" + number2, {
           font: font,
           size: 5,
           height: 5,
@@ -66,7 +66,7 @@
       scene.add(downBorder);
       scene.add(sphere);
       scene.add(floor);
-      texto(scene);
+      marcador(scene,puntos_J1,puntos_CPU);
       borders = [ leftBorder, rightBorder, topBorder, downBorder ];
 
       animate(sphere, borders, renderer, scene, camera);
@@ -78,13 +78,19 @@
        raqueta.position.x = 2.25;
      }
    }
-   function comprobarBola(sphere){
+   function comprobarBola(sphere,scene){
      if (sphere.position.y >= 10){
        sphere.position.x = 0;
        sphere.position.y = 0;
+       puntos_J1 += 1;
+       scene.remove(textMesh);
+       marcador(scene,puntos_J1,puntos_CPU);
      } else if (sphere.position.y <= -9){
       sphere.position.x = 0;
       sphere.position.y = 0;
+      puntos_CPU += 1;
+      scene.remove(textMesh);
+      marcador(scene,puntos_J1,puntos_CPU);
      }
    }
    function Mover_Pala(raqueta){
@@ -112,12 +118,12 @@
      raqueta.position.x = 2.25;
    }
  }
-function mover_Bola(sphere,inicio){
+function mover_Bola(sphere,inicio,scene){
    if(inicio){
      sphere.position.x += stepX;
      sphere.position.y += stepY;
    }
-   comprobarBola(sphere);
+   comprobarBola(sphere,scene);
 }
    function animate(sphere, borders, renderer, scene, camera) {
       checkCollision(sphere, borders);
@@ -125,7 +131,7 @@ function mover_Bola(sphere,inicio){
       raqueta_CPU = borders[2];
       Mover_Pala(raqueta_J1);
       mover_CPU(raqueta_CPU,sphere);
-      mover_Bola(sphere,inicio);
+      mover_Bola(sphere,inicio,scene);
       renderer.render(scene, camera);
       requestAnimationFrame(function() {
          animate(sphere, borders, renderer, scene, camera);
