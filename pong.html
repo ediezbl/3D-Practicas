@@ -16,6 +16,7 @@
    var borders = [];
    var inicio = false;
    var textMesh;
+
    function marcador(scene, number1, number2){
      var loader = new THREE.FontLoader();
      loader.load('fonts/helvetiker_regular.typeface.json', function ( font ) {
@@ -36,6 +37,7 @@
          scene.add(textMesh);
      });
    }
+
    function init() {
       var scene = new THREE.Scene();
       var sceneWidth = window.innerWidth - 20;
@@ -71,6 +73,7 @@
 
       animate(sphere, borders, renderer, scene, camera);
    }
+
    function comprobarRaqueta(raqueta){
      if (raqueta.position.x <= -2.25){
        raqueta.position.x = -2.25;
@@ -78,21 +81,24 @@
        raqueta.position.x = 2.25;
      }
    }
+   function bola_init(sphere,scene,inicio){
+     sphere.position.x = 0;
+     sphere.position.y = 0;
+     scene.remove(textMesh);
+   }
+
    function comprobarBola(sphere,scene){
      if (sphere.position.y >= 10){
-       sphere.position.x = 0;
-       sphere.position.y = 0;
+       bola_init(sphere,scene);
        puntos_J1 += 1;
-       scene.remove(textMesh);
        marcador(scene,puntos_J1,puntos_CPU);
      } else if (sphere.position.y <= -9){
-      sphere.position.x = 0;
-      sphere.position.y = 0;
+      bola_init(sphere, scene, inicio);
       puntos_CPU += 1;
-      scene.remove(textMesh);
       marcador(scene,puntos_J1,puntos_CPU);
-     }
-   }
+    }
+    }
+
    function Mover_Pala(raqueta){
      document.onkeydown = function(ev){
        console.log(ev.keyCode);
@@ -110,6 +116,7 @@
    }
    comprobarRaqueta(raqueta);
  }
+
  function mover_CPU(raqueta,sphere){
    raqueta.position.x = sphere.position.x;
    if (raqueta.position.x <= -2.25){
@@ -118,6 +125,7 @@
      raqueta.position.x = 2.25;
    }
  }
+
 function mover_Bola(sphere,inicio,scene){
    if(inicio){
      sphere.position.x += stepX;
@@ -125,7 +133,8 @@ function mover_Bola(sphere,inicio,scene){
    }
    comprobarBola(sphere,scene);
 }
-   function animate(sphere, borders, renderer, scene, camera) {
+
+ function animate(sphere, borders, renderer, scene, camera) {
       checkCollision(sphere, borders);
       raqueta_J1 = borders[3];
       raqueta_CPU = borders[2];
