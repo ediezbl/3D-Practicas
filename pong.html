@@ -70,7 +70,6 @@
       scene.add(floor);
       marcador(scene,puntos_J1,puntos_CPU);
       borders = [ leftBorder, rightBorder, topBorder, downBorder ];
-
       animate(sphere, borders, renderer, scene, camera);
    }
 
@@ -91,14 +90,27 @@
      if (sphere.position.y >= 10){
        bola_init(sphere,scene);
        puntos_J1 += 1;
+       restartGame(sphere, scene);
        marcador(scene,puntos_J1,puntos_CPU);
      } else if (sphere.position.y <= -9){
       bola_init(sphere, scene, inicio);
       puntos_CPU += 1;
+      restartGame(sphere, scene);
       marcador(scene,puntos_J1,puntos_CPU);
     }
     }
-
+    function restart(){
+      inicio = false;
+      puntos_J1 = 0;
+      puntos_CPU = 0;
+    }
+  function restartGame(sphere,scene){
+    if(puntos_J1 == 5){
+      restart();
+    } else if (puntos_CPU == 5) {
+      restart();
+    }
+  }
    function Mover_Pala(raqueta){
      document.onkeydown = function(ev){
        console.log(ev.keyCode);
