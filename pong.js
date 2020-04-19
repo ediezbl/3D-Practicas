@@ -9,6 +9,9 @@ var borders = [];
 var inicio = false;
 var textMesh;
 var file;
+var theta = 1;
+var v = 1;
+
 function marcador(scene, number1, number2){
   var loader = new THREE.FontLoader();
   loader.load('fonts/helvetiker_regular.typeface.json', function ( font ) {
@@ -132,19 +135,30 @@ if (raqueta.position.x <= -2.25){
 
 function mover_Bola(sphere,inicio,scene){
 if(inicio){
-  sphere.position.x += stepX;
-  sphere.position.y += stepY;
+  sphere.position.x += stepX * theta;
+  sphere.position.y += stepY * v;
 }
 comprobarBola(sphere,scene);
 }
 
+function cambio_Angulo(sphere, raqueta){
+  var posicion = (sphere.position.x - raqueta.position.x);
+  if(posicion == 0){
+    theta = 1;
+  } else{
+    theta = 1.5;
+  }
+}
+
 function animate(sphere, borders, renderer, scene, camera) {
-   checkCollision(sphere, borders);
    raqueta_J1 = borders[3];
    raqueta_CPU = borders[2];
+   checkCollision(sphere, borders,raqueta_J1, raqueta_CPU);
    Mover_Pala(raqueta_J1);
    mover_CPU(raqueta_CPU,sphere);
-   mover_Bola(sphere,inicio,scene);
+   mover_Bola(sphere,inicio,scene,raqueta_J1, raqueta_CPU);
+   cambio_Angulo(sphere, raqueta_J1);
+   cambio_Angulo(sphere, raqueta_CPU);
    renderer.render(scene, camera);
    requestAnimationFrame(function() {
       animate(sphere, borders, renderer, scene, camera);
@@ -209,7 +223,7 @@ function getTexture(file) {
    return material;
 }
 
-function checkCollision(sphere, borders) {
+function checkCollision(sphere, borders, raqueta1, raqueta2) {
    var originPosition = sphere.position.clone();
 
    for (var i = 0; i < sphere.geometry.vertices.length; i++) {
