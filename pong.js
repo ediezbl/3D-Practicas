@@ -1,8 +1,6 @@
 
 var stepX = 0.15;
 var stepY = 0.25;
-var pala_Jugador = 2;
-var pala_CPU = 2;
 var puntos_CPU = 0;
 var puntos_J1 = 0;
 var borders = [];
@@ -11,6 +9,7 @@ var textMesh;
 var file;
 var theta = 1;
 var v = 1;
+var sizePala = 2;
 
 function marcador(scene, number1, number2){
   var loader = new THREE.FontLoader();
@@ -52,8 +51,8 @@ function init() {
    var light = getLight();
    var leftBorder = getBorder("left", 1, 20, 2, -5, 0, 0);
    var rightBorder = getBorder("right", 1, 20, 2, 5, 0, 0);
-   var topBorder = getBorder("top", pala_CPU, 1, 2, 0, 10, 0);
-   var downBorder = getBorder("down", pala_Jugador, 1, 2, 0, -9.5, 0);
+   var topBorder = getBorder("top", sizePala, 1, 2, 0, 10, 0);
+   var downBorder = getBorder("down", sizePala, 1, 2, 0, -9.5, 0);
    var sphere = getSphere();
    var floor = getFloor();
    scene.add(light);
@@ -75,10 +74,18 @@ function comprobarRaqueta(raqueta){
     raqueta.position.x = 2.25;
   }
 }
+function restart_speed(){
+  console.log("reiniciando velocidad")
+  stepX = 0.15;
+  stepY = 0.25;
+  thetha = 1;
+  v = 1;
+}
 function bola_init(sphere,scene,inicio){
   sphere.position.x = 0;
   sphere.position.y = 0;
   scene.remove(textMesh);
+  restart_speed();
 }
 
 function comprobarBola(sphere,scene){
@@ -98,6 +105,7 @@ function comprobarBola(sphere,scene){
    inicio = false;
    puntos_J1 = 0;
    puntos_CPU = 0;
+   restart_speed();
  }
 function restartGame(sphere,scene){
  if(puntos_J1 == 5){
@@ -142,11 +150,12 @@ comprobarBola(sphere,scene);
 }
 
 function cambio_Angulo(sphere, raqueta){
-  var posicion = (sphere.position.x - raqueta.position.x);
-  if(posicion == 0){
+
+  if((sphere.position.x > raqueta.position.x && sphere.position.x <= raqueta.position.x + sizePala/2)
+    ||(sphere.position.x < raqueta.position.x && sphere.position.x >= raqueta.position.x - sizePala/2)){
+        theta = 1.5;
+  } else {
     theta = 1;
-  } else{
-    theta = 1.5;
   }
 }
 
