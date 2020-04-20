@@ -142,7 +142,7 @@ comprobarRaqueta(raqueta);
 }
 
 function mover_CPU(raqueta,sphere){
-  raqueta.position.x = sphere.position.x * 0.2;
+  raqueta.position.x = sphere.position.x * 0.1;
   comprobarRaqueta(raqueta);
 }
 
@@ -229,7 +229,6 @@ function getBorder(name, x, y, z, posX, posY, posZ) {
    mesh.receiveShadow = true;
    mesh.position.set(posX, posY, posZ);
    mesh.name = name;
-
    return mesh;
 }
 
