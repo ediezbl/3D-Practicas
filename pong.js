@@ -142,12 +142,8 @@ comprobarRaqueta(raqueta);
 }
 
 function mover_CPU(raqueta,sphere){
-raqueta.position.x = sphere.position.x;
-if (raqueta.position.x <= -2.25){
-  raqueta.position.x = -2.25;
-} else if (raqueta.position.x >= 2.25) {
-  raqueta.position.x = 2.25;
-}
+  raqueta.position.x = sphere.position.x * 0.2;
+  comprobarRaqueta(raqueta);
 }
 
 function mover_Bola(sphere,inicio,scene){
@@ -161,7 +157,7 @@ comprobarBola(sphere,scene);
 function cambio_Angulo(sphere, raqueta){
   var diff = Math.abs(sphere.position.x - raqueta.position.x);
   console.log(diff);
-  if(diff > 1){
+  if(diff > 0.6){
     theta = 1.5;
   } else {
     theta = 1;
@@ -169,7 +165,7 @@ function cambio_Angulo(sphere, raqueta){
 }
 
 function cambio_velocidad(pos_inicial, pos_final){
-  var diff= Math.abs(pos_final - pos_inicial);
+  var diff = Math.abs(pos_final - pos_inicial);
   console.log(diff);
   if(diff < 0.5){
     v = 1;
