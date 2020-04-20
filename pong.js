@@ -10,6 +10,10 @@ var file;
 var theta = 1;
 var v = 1;
 var sizePala = 2;
+var posicion_inicial_J1 = 0;
+var posicion_final_J1 = 0;
+var posicion_inicial_CPU = 0;
+var posicion_final_CPU = 0;
 
 function marcador(scene, number1, number2){
   var loader = new THREE.FontLoader();
@@ -80,6 +84,11 @@ function restart_speed(){
   stepY = 0.25;
   thetha = 1;
   v = 1;
+  posicion_inicial_J1 = 0;
+  posicion_inicial_J1 = 0;
+  posicion_final_J1 = 0;
+  posicion_final_CPU = 0;
+
 }
 function bola_init(sphere,scene,inicio){
   sphere.position.x = 0;
@@ -156,6 +165,16 @@ function cambio_Angulo(sphere, raqueta){
     theta = 1.5;
   } else {
     theta = 1;
+  }
+}
+
+function cambio_velocidad(pos_inicial, pos_final){
+  var diff= Math.abs(pos_final - pos_inicial);
+  console.log(diff);
+  if(diff < 0.5){
+    v = 1;
+  } else {
+    v = Math.min(diff,2);
   }
 }
 
@@ -247,11 +266,17 @@ function checkCollision(sphere, borders, raqueta1, raqueta2) {
          if (collisionResults[0].object.name == "down"){
            stepY *= -1;
            cambio_Angulo(sphere,raqueta1);
+           posicion_final_J1 = raqueta1.position.x;
+           posicion_inicial_CPU = raqueta2.position.x;
+           cambio_velocidad(posicion_inicial_J1, posicion_final_J1);
          }
 
          if (collisionResults[0].object.name == "top") {
             stepY *= -1;
             cambio_Angulo(sphere,raqueta2);
+            posicion_inicial_J1 = raqueta1.position.x;
+            posicion_final_CPU = raqueta2.position.x;
+            cambio_velocidad(posicion_inicial_CPU, posicion_final_CPU);
          }
          break;
       }
