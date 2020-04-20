@@ -150,10 +150,10 @@ comprobarBola(sphere,scene);
 }
 
 function cambio_Angulo(sphere, raqueta){
-
-  if((sphere.position.x > raqueta.position.x && sphere.position.x <= raqueta.position.x + sizePala/2)
-    ||(sphere.position.x < raqueta.position.x && sphere.position.x >= raqueta.position.x - sizePala/2)){
-        theta = 1.5;
+  var diff = Math.abs(sphere.position.x - raqueta.position.x);
+  console.log(diff);
+  if(diff > 1){
+    theta = 1.5;
   } else {
     theta = 1;
   }
@@ -166,8 +166,6 @@ function animate(sphere, borders, renderer, scene, camera) {
    Mover_Pala(raqueta_J1);
    mover_CPU(raqueta_CPU,sphere);
    mover_Bola(sphere,inicio,scene,raqueta_J1, raqueta_CPU);
-   cambio_Angulo(sphere, raqueta_J1);
-   cambio_Angulo(sphere, raqueta_CPU);
    renderer.render(scene, camera);
    requestAnimationFrame(function() {
       animate(sphere, borders, renderer, scene, camera);
@@ -246,8 +244,14 @@ function checkCollision(sphere, borders, raqueta1, raqueta2) {
          if (collisionResults[0].object.name == "left" || collisionResults[0].object.name == "right") {
             stepX *= -1;
          }
-         if (collisionResults[0].object.name == "down" || collisionResults[0].object.name == "top") {
+         if (collisionResults[0].object.name == "down"){
+           stepY *= -1;
+           cambio_Angulo(sphere,raqueta1);
+         }
+
+         if (collisionResults[0].object.name == "top") {
             stepY *= -1;
+            cambio_Angulo(sphere,raqueta2);
          }
          break;
       }
