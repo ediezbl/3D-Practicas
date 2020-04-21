@@ -147,12 +147,7 @@ function getRandomFloat(raqueta) {
     var min = 0;
     var max = 1;
     random= Math.random() * (max - min) + min;
-    console.log(random)
-    if(random == 0){
-      num = 1;
-    } else {
-      num = random;
-    }
+    num = random;
 };
 
 function mover_Bola(sphere,inicio,scene){
