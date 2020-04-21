@@ -7,6 +7,12 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/103/three.min.js"></script>
 <script src= "pong.js"></script>
 <style>
+input {
+  color: white;
+}
+b {
+  color: white;
+}
 p {
   color: white;
 }
@@ -30,6 +36,14 @@ p {
 </head>
 <body onload ="init()">
   <canvas id="myCanvas" width="640" height="480"></canvas>
-  <p>Espacio para jugar</p>
+  <p>Pulsa Espacio para jugar</p>
+  <p>Dificultad</p>
+  <b>Facil</b>
+  <input type="radio" name="dificultad" value="facil" checked> Facil
+  <b>Medio</b>
+  <input type="radio" name="dificultad" value="medio">Medio
+  <b>Imposible</b>
+  <input type="radio" name="dificultad" value="imposible">Imposible<br>
+  
 </body>
 </html>

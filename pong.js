@@ -15,6 +15,7 @@ var posicion_final_J1 = 0;
 var posicion_inicial_CPU = 0;
 var posicion_final_CPU = 0;
 var num = 1;
+var difficulty = 1;
 
 function marcador(scene, number1, number2){
   var loader = new THREE.FontLoader();
@@ -139,10 +140,24 @@ function Mover_Pala(raqueta){
 comprobarRaqueta(raqueta);
 }
 
+function cambiar_dificultad(raqueta, sphere){
+  var dificultad = document.querySelector('input[name="dificultad"]:checked').value;
+  if(dificultad == "facil"){
+    difficulty = 0.2;
+    raqueta.position.x = sphere.position.x * difficulty;
+  } else if (dificultad = "medio"){
+    raqueta.position.x = sphere.position.x * num;
+  } else if (dificultad = "imposible"){
+    raqueta.position.x = sphere.position.x;
+  }
+}
+
 function mover_CPU(raqueta,sphere){
-  raqueta.position.x = sphere.position.x * num;
+  cambiar_dificultad(raqueta,sphere);
   comprobarRaqueta(raqueta);
 }
+
+
 function getRandomFloat(raqueta) {
     var min = 0;
     var max = 1;
