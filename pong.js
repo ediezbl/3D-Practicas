@@ -14,6 +14,7 @@ var posicion_inicial_J1 = 0;
 var posicion_final_J1 = 0;
 var posicion_inicial_CPU = 0;
 var posicion_final_CPU = 0;
+var num = 1;
 
 function marcador(scene, number1, number2){
   var loader = new THREE.FontLoader();
@@ -38,19 +39,18 @@ function marcador(scene, number1, number2){
 
 function init() {
    var scene = new THREE.Scene();
-   var sceneWidth = window.innerWidth - 20;
-   var sceneHeight = window.innerHeight - 20;
+   var mycanvas = document.getElementById("myCanvas");
+   var sceneWidth = mycanvas.width;
+   var sceneHeight = mycanvas.height;
 
    var camera = new THREE.PerspectiveCamera(90, sceneWidth / sceneHeight, 0.01, 100);
    camera.position.set(0, -10, 15);
    camera.lookAt(scene.position);
 
    var renderer = new THREE.WebGLRenderer({
-      antialias : true
+      antialias : true,
+      canvas: myCanvas
    });
-   renderer.shadowMap.enabled = true;
-   renderer.setSize(sceneWidth, sceneHeight);
-   document.body.appendChild(renderer.domElement);
 
    var light = getLight();
    var leftBorder = getBorder("left", 1, 20, 2, -5, 0, 0);
@@ -79,7 +79,6 @@ function comprobarRaqueta(raqueta){
   }
 }
 function restart_speed(){
-  console.log("reiniciando velocidad")
   stepX = 0.15;
   stepY = 0.25;
   thetha = 1;
@@ -125,7 +124,6 @@ function restartGame(sphere,scene){
 }
 function Mover_Pala(raqueta){
   document.onkeydown = function(ev){
-    console.log(ev.keyCode);
     switch(ev.keyCode){
       case 37:
       raqueta.position.x -= 0.25;
@@ -142,9 +140,20 @@ comprobarRaqueta(raqueta);
 }
 
 function mover_CPU(raqueta,sphere){
-  raqueta.position.x = sphere.position.x * 0.1;
+  raqueta.position.x = sphere.position.x * num;
   comprobarRaqueta(raqueta);
 }
+function getRandomFloat(raqueta) {
+    var min = 0;
+    var max = 1;
+    random= Math.random() * (max - min) + min;
+    console.log(random)
+    if(random == 0){
+      num = 1;
+    } else {
+      num = random;
+    }
+};
 
 function mover_Bola(sphere,inicio,scene){
 if(inicio){
@@ -156,7 +165,6 @@ comprobarBola(sphere,scene);
 
 function cambio_Angulo(sphere, raqueta){
   var diff = Math.abs(sphere.position.x - raqueta.position.x);
-  console.log(diff);
   if(diff > 0.6){
     theta = 1.5;
   } else {
@@ -166,7 +174,6 @@ function cambio_Angulo(sphere, raqueta){
 
 function cambio_velocidad(pos_inicial, pos_final){
   var diff = Math.abs(pos_final - pos_inicial);
-  console.log(diff);
   if(diff < 0.5){
     v = 1;
   } else {
@@ -264,6 +271,7 @@ function checkCollision(sphere, borders, raqueta1, raqueta2) {
            posicion_final_J1 = raqueta1.position.x;
            posicion_inicial_CPU = raqueta2.position.x;
            cambio_velocidad(posicion_inicial_J1, posicion_final_J1);
+           getRandomFloat(raqueta2);
          }
 
          if (collisionResults[0].object.name == "top") {
