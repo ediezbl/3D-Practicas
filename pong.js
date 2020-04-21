@@ -218,7 +218,10 @@ function getLight() {
    light.shadow.mapSize.height = 4096;
    return light;
 }
+/*function getSphereTexture(){
 
+}
+*/
 function getSphere() {
    var geometry = new THREE.SphereGeometry(1, 20, 20);
    file = 'bola.png'
