@@ -1,4 +1,3 @@
-
 var stepX = 0.15;
 var stepY = 0.25;
 var puntos_CPU = 0;
@@ -219,7 +218,6 @@ function getLight() {
    return light;
 }
 /*function getSphereTexture(){
-
 }
 */
 function getSphere() {
