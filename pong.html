@@ -1,38 +1,18 @@
 <!DOCTYPE html>
 
+<!--
+Partes implementadas:
+- Funcionalidad básica
+- Funcionalidad avanzada (ángulo de rebote variable, velocidad de
+desplazamiento vertical variable, posibilidad de ganar a la CPU)
+- Mejoras (Introducir niveles de dificultad, Marcador en grafico 3D)
+-->
 <html>
-
 <head>
 <title>PONG</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/103/three.min.js"></script>
 <script src= "pong.js"></script>
-<style>
-input {
-  color: white;
-}
-b {
-  color: white;
-}
-p {
-  color: white;
-}
-  body {
-    background-color: black;
-  }
-  canvas {
-      padding: 0;
-      margin: auto;
-      display: block;
-      width: 800px;
-      height: 600px;
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      left: 0;
-      right: 0;
-  }
-
-</style>
+<link rel="stylesheet" href="pong.css">
 </head>
 <body onload ="init()">
   <canvas id="myCanvas" width="640" height="480"></canvas>
@@ -44,10 +24,5 @@ p {
   <input type="radio" name="dificultad" value="medio">Medio
   <b>Imposible</b>
   <input type="radio" name="dificultad" value="imposible">Imposible<br>
-  <p>Texturas</p>
-  <b>Suelo verde</b>
-  <input type="radio" name="textura" value="verde" checked> Suelo Verde
-  <b>Suelo Azul</b>
-  <input type="radio" name="textura" value="azul">Suelo Azul<br>
 </body>
 </html>

@@ -118,8 +118,10 @@ function comprobarBola(sphere,scene){
 function restartGame(sphere,scene){
  if(puntos_J1 == 5){
    restart();
+   alert("Has ganado");
  } else if (puntos_CPU == 5) {
    restart();
+   alert("Has perdido");
  }
 }
 function Mover_Pala(raqueta){
@@ -217,9 +219,7 @@ function getLight() {
    light.shadow.mapSize.height = 4096;
    return light;
 }
-/*function getSphereTexture(){
-}
-*/
+
 function getSphere() {
    var geometry = new THREE.SphereGeometry(1, 20, 20);
    file = 'bola.png'
